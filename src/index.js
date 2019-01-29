@@ -7,8 +7,6 @@ import {
   Nav,
   NavItem,
   MenuItem,
-  NavDropdown,
-  SplitButton,
   Button,
   Glyphicon,
   DropdownButton
@@ -36,7 +34,7 @@ class App extends React.Component {
               defaultActiveKey="1"
               activeKey={this.state.activeTab}
               onSelect={key => {
-                if (key == "add") this.setState({ activeTab: "1" });
+                if (key === "add") this.setState({ activeTab: this.newTab });
                 else this.setState({ activeTab: key });
               }}
             >
@@ -44,11 +42,17 @@ class App extends React.Component {
                 <Col sm={12}>
                   <Nav bsStyle="tabs">
                     {this.state.tabs.map(item => (
-                      <NavItem eventKey={item}>
+                      <NavItem key={item} eventKey={item}>
                         Tab {item}
-                        <DropdownButton bsStyle="link">
+                        <DropdownButton
+                          bsStyle="link"
+                          title=""
+                          id={`tab-{item}-context`}
+                          componentClass="span"
+                        >
                           <MenuItem
                             eventKey={item}
+                            componentClass="span"
                             onClick={e => {
                               var tabs = this.state.tabs;
                               tabs.splice(tabs.indexOf(item), 1);
@@ -60,14 +64,14 @@ class App extends React.Component {
                         </DropdownButton>
                       </NavItem>
                     ))}
-                    <NavItem eventKey="add">
+                    <NavItem key="add" eventKey="add">
                       <Button
                         bsStyle="link"
+                        componentClass="span"
                         onClick={e => {
+                          this.newTab = this.nextNewTab.toString();
                           this.setState({
-                            tabs: this.state.tabs.concat(
-                              this.nextNewTab.toString()
-                            )
+                            tabs: this.state.tabs.concat(this.newTab)
                           });
                           this.nextNewTab++;
                         }}
@@ -80,7 +84,9 @@ class App extends React.Component {
                 <Col sm={12}>
                   <Tab.Content animation>
                     {this.state.tabs.map(item => (
-                      <Tab.Pane eventKey={item}>Tab {item} content</Tab.Pane>
+                      <Tab.Pane key={item} eventKey={item}>
+                        Tab {item} content
+                      </Tab.Pane>
                     ))}
                   </Tab.Content>
                 </Col>

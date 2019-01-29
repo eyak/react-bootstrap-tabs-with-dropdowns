@@ -2,3 +2,8 @@
   font-family: sans-serif;
   text-align: center;
 }
+
+#tabs-with-dropdown-tab-add:focus {
+  outline: none;
+  background-color: initial;
+}
